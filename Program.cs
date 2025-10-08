@@ -176,8 +176,8 @@ class Generator
             else if (cmd.StartsWith("list:"))
             {
                 var kind = cmd[5..].ToString();
-                var entries = Entries[kind];
-                foreach (var entry in entries.AsEnumerable().Reverse())
+                if (!Entries.ContainsKey(kind)) continue;
+                foreach (var entry in Entries[kind].AsEnumerable().Reverse())
                 {
                     if (entry.Variables.GetValueOrDefault("visible") == "false") continue;
                     var vars = new Dictionary<string, string>(variables);
@@ -215,29 +215,29 @@ class Program
         Directory.SetCurrentDirectory(root);
 
         if (Directory.Exists(PublishPath))
+        {
+            try
             {
+                Directory.Delete(PublishPath, true);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Public folder in use. Waiting before retry...");
+                Thread.Sleep(1000);
                 try
                 {
                     Directory.Delete(PublishPath, true);
                 }
-                catch (IOException)
+                catch (Exception)
                 {
-                    Console.WriteLine("Public folder in use. Waiting before retry...");
-                    Thread.Sleep(1000);
-                    try
-                    {
-                        Directory.Delete(PublishPath, true);
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Could not delete 'public' folder. Skipping clean step.");
-                    }
+                    Console.WriteLine("Could not delete 'public' folder. Skipping clean step.");
                 }
             }
+        }
 
         Directory.CreateDirectory(PublishPath);
 
-        var generator = new Generator("source", ["games", "posts"], Rel, Site);
+        var generator = new Generator("source", ["games"], Rel, Site);
         var indexTemplate = File.ReadAllText(Path.Combine("source", "index.html"));
         var postTemplate = File.ReadAllText(Path.Combine("source", "post.html"));
 
@@ -300,26 +300,6 @@ class Program
             }
         }
 
-        var rss = new StringBuilder();
-        rss.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-        rss.AppendLine("<rss version=\"2.0\"><channel>");
-        rss.AppendLine("\t<title>Miisan</title>");
-        rss.AppendLine("\t<link>https://miisan.dev</link>");
-        rss.AppendLine("\t<language>en-us</language>");
-        rss.AppendLine("\t<description>Portfolio and projects by Miisan</description>");
-
-        foreach (var post in generator.Entries["posts"].Where(p => p.Valid && p.Variables.GetValueOrDefault("visible") != "false").Reverse())
-        {
-            var date = DateTime.Parse(post.Variables["date"]);
-            rss.AppendLine("\t<item>");
-            rss.AppendLine($"\t\t<title>{post.Variables["title"]}</title>");
-            rss.AppendLine($"\t\t<link>{Site}/{post.DestPath}/index.html</link>");
-            rss.AppendLine($"\t\t<description>{post.Variables.GetValueOrDefault("description")}</description>");
-            rss.AppendLine($"\t\t<pubDate>{date:ddd, dd MMM yyyy HH:mm:ss zzz}</pubDate>");
-            rss.AppendLine("\t</item>");
-        }
-
-        rss.AppendLine("\t</channel></rss>");
-        File.WriteAllText(Path.Combine(PublishPath, "rss.xml"), rss.ToString());
+        Console.WriteLine("Site generated successfully (games only).");
     }
 }
