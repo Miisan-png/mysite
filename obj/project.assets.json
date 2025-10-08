@@ -53,9 +53,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Azar\\Desktop\\mywebsite\\noelfb2022.csproj",
-      "projectName": "noelfb2022",
-      "projectPath": "C:\\Users\\Azar\\Desktop\\mywebsite\\noelfb2022.csproj",
+      "projectUniqueName": "C:\\Users\\Azar\\Desktop\\mywebsite\\mysite.csproj",
+      "projectName": "mysite",
+      "projectPath": "C:\\Users\\Azar\\Desktop\\mywebsite\\mysite.csproj",
       "packagesPath": "C:\\Users\\Azar\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Azar\\Desktop\\mywebsite\\obj\\",
       "projectStyle": "PackageReference",
