@@ -1,0 +1,40 @@
+# .NET build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE files
+.vscode/
+.vs/
+.idea/
+
+# Generated site output
+public/
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+*.DS_Store
+Thumbs.db
+
+# OS / misc
+ehthumbs.db
+desktop.ini
+
+# Python cache (for local server)
+__pycache__/
+
+# Backup or local scripts
+*.bat
+*.sh
+
+# Optional: ignore markdown drafts or notes
+notes/
+drafts/
