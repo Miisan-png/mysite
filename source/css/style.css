@@ -6,20 +6,20 @@ html {
 
 body {
 	padding: 40px 5vw 40px 5vw;
-	color: #272446;
-	background: #e1dacd;
+	color: #ffffff;
+	background: #1b1b20;
 	line-height: 1.5em;
 	font-size: 1.1em;
 }
 
 a {
-	color: #37946e;
+	color: #f1135d;
 	font-weight: bold;
 	text-decoration: none;
 }
 
 a:hover {
-	color: #000;
+	color: #ffe8a4;
 }
 
 code {
@@ -60,9 +60,24 @@ code {
 .header .social img {
 	image-rendering: pixelated;
 }
-.header .social a:hover img {
-	filter: brightness(0%);
+.header .social img {
+	transition: filter 0.3s ease, transform 0.2s ease;
 }
+
+.header .social a:hover img {
+	transform: scale(1.1);
+	filter: sepia(1) saturate(6000%) hue-rotate(330deg) brightness(1.1);
+}
+
+.header .social img {
+	transition: filter 0.3s ease, transform 0.2s ease;
+}
+.header .social a:hover img {
+	transform: scale(1.1);
+}
+
+
+
 
 @media (max-width: 880px)
 {
@@ -109,7 +124,7 @@ code {
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	background: #37946e;
+	background: #d3244d;
 	transition: opacity 0.25s;
 }
 

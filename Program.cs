@@ -215,7 +215,26 @@ class Program
         Directory.SetCurrentDirectory(root);
 
         if (Directory.Exists(PublishPath))
-            Directory.Delete(PublishPath, true);
+            {
+                try
+                {
+                    Directory.Delete(PublishPath, true);
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("Public folder in use. Waiting before retry...");
+                    Thread.Sleep(1000);
+                    try
+                    {
+                        Directory.Delete(PublishPath, true);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Could not delete 'public' folder. Skipping clean step.");
+                    }
+                }
+            }
+
         Directory.CreateDirectory(PublishPath);
 
         var generator = new Generator("source", ["games", "posts"], Rel, Site);

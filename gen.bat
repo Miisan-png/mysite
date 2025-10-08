@@ -2,8 +2,13 @@
 title Generate MySite
 cd /d "%~dp0"
 
+echo Stopping any existing local server...
+taskkill /F /IM python.exe >nul 2>&1
+
 echo Cleaning old build...
-if exist public rmdir /s /q public
+if exist public (
+    rmdir /s /q public
+)
 
 echo Building site...
 dotnet build --nologo -v quiet -clp:ErrorsOnly
