@@ -1,0 +1,13 @@
+{
+    "title": "Outpatients",
+    "preview": "preview.png",
+    "postcard": "postcard.png",
+    "description": "A third-person co-op horror game where two young girls must escape an abandoned, deranged hospital. Winner of BetterGrounds 2025 - First Place.",
+    "tech": ["Unity", "C#", "HLSL", "Custom Shaders"],
+    "links": [
+        {
+            "text": "View LinkedIn Post",
+            "url": "https://www.linkedin.com/posts/azar-ali-8b6364280_just-wrapped-up-our-betterground-trip-to-activity-7379498844822278144-hTdo"
+        }
+    ]
+}
