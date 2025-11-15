@@ -1,6 +1,10 @@
 // Current category state
 let currentCategory = 'games';
 
+// Filter state
+let activeTags = new Set();
+let allProjects = [];
+
 // Bio texts for different categories
 const bioTexts = {
     games: "Harro, i am azar, i code, eat food and enjoy retro games. I make game engines or random stuff.",
@@ -18,6 +22,7 @@ async function loadGames() {
         const indexData = await indexResponse.json();
 
         projectsGrid.innerHTML = '';
+        allProjects = [];
 
         // Load each game's data
         for (const gameName of indexData.projects) {
@@ -25,16 +30,15 @@ async function loadGames() {
                 const gameResponse = await fetch(`games/${gameName}/game.json`);
                 const gameData = await gameResponse.json();
 
-                const projectCard = createProjectCard(gameData, gameName, 'games');
-                projectsGrid.appendChild(projectCard);
+                allProjects.push({ data: gameData, name: gameName, category: 'games' });
             } catch (error) {
                 console.error(`Error loading game ${gameName}:`, error);
             }
         }
 
-        if (projectsGrid.children.length === 0) {
-            projectsGrid.innerHTML = '<p class="no-projects">No games found.</p>';
-        }
+        // Build tag filter and display projects
+        buildTagFilter();
+        displayFilteredProjects();
     } catch (error) {
         console.error('Error loading games:', error);
         projectsGrid.innerHTML = '<p class="error-message">Failed to load games.</p>';
@@ -44,6 +48,15 @@ async function loadGames() {
 // Load and display jams
 async function loadJams() {
     const projectsGrid = document.getElementById('projects-grid');
+    const filterContainer = document.getElementById('tag-filter-container');
+
+    // Hide filter for jams
+    filterContainer.style.display = 'none';
+
+    // Show under construction message
+    projectsGrid.innerHTML = '<p class="under-construction">under construction... I will finish coding this soon :PP</p>';
+
+    /* Temporarily disabled
     projectsGrid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>Loading jams...</p></div>';
 
     try {
@@ -52,6 +65,7 @@ async function loadJams() {
         const indexData = await indexResponse.json();
 
         projectsGrid.innerHTML = '';
+        allProjects = [];
 
         // Load each jam's data
         for (const jamName of indexData.projects) {
@@ -59,20 +73,20 @@ async function loadJams() {
                 const jamResponse = await fetch(`jams/${jamName}/jam.json`);
                 const jamData = await jamResponse.json();
 
-                const projectCard = createProjectCard(jamData, jamName, 'jams');
-                projectsGrid.appendChild(projectCard);
+                allProjects.push({ data: jamData, name: jamName, category: 'jams' });
             } catch (error) {
                 console.error(`Error loading jam ${jamName}:`, error);
             }
         }
 
-        if (projectsGrid.children.length === 0) {
-            projectsGrid.innerHTML = '<p class="no-projects">No jams found.</p>';
-        }
+        // Build tag filter and display projects
+        buildTagFilter();
+        displayFilteredProjects();
     } catch (error) {
         console.error('Error loading jams:', error);
         projectsGrid.innerHTML = '<p class="error-message">Failed to load jams.</p>';
     }
+    */
 }
 
 // Create a project card element
@@ -106,6 +120,9 @@ function createProjectCard(data, name, category) {
 function toggleCategory(category) {
     currentCategory = category;
 
+    // Clear active filters when switching categories
+    activeTags.clear();
+
     const categoryIcons = document.querySelectorAll('.category-icon');
     const descriptionElement = document.querySelector('.description');
 
@@ -131,6 +148,122 @@ function toggleCategory(category) {
     }
 }
 
+// Build tag filter from loaded projects
+function buildTagFilter() {
+    const tagFilterContainer = document.getElementById('tag-filter');
+    const filterContainer = document.getElementById('tag-filter-container');
+
+    // Collect all unique tags
+    const allTags = new Set();
+    allProjects.forEach(project => {
+        if (project.data.tech && project.data.tech.length > 0) {
+            project.data.tech.forEach(tag => allTags.add(tag));
+        }
+    });
+
+    // Show/hide filter container based on whether there are tags
+    if (allTags.size === 0) {
+        filterContainer.style.display = 'none';
+        return;
+    }
+    filterContainer.style.display = 'block';
+
+    // Clear existing tags
+    tagFilterContainer.innerHTML = '';
+
+    // Create tag buttons sorted alphabetically
+    Array.from(allTags).sort().forEach(tag => {
+        const tagButton = document.createElement('button');
+        tagButton.className = 'tag-button';
+        tagButton.textContent = tag;
+        tagButton.dataset.tag = tag;
+
+        tagButton.addEventListener('click', () => {
+            toggleTag(tag);
+        });
+
+        tagFilterContainer.appendChild(tagButton);
+    });
+}
+
+// Toggle a tag filter
+function toggleTag(tag) {
+    if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+    } else {
+        activeTags.add(tag);
+    }
+
+    // Update button states
+    const tagButtons = document.querySelectorAll('.tag-button');
+    tagButtons.forEach(button => {
+        if (activeTags.has(button.dataset.tag)) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+
+    displayFilteredProjects();
+}
+
+// Display projects based on active filters
+function displayFilteredProjects() {
+    const projectsGrid = document.getElementById('projects-grid');
+    projectsGrid.innerHTML = '';
+
+    let filteredProjects = allProjects;
+
+    // Filter by active tags if any
+    if (activeTags.size > 0) {
+        filteredProjects = allProjects.filter(project => {
+            if (!project.data.tech || project.data.tech.length === 0) {
+                return false;
+            }
+            // Project must have at least one of the active tags
+            return project.data.tech.some(tag => activeTags.has(tag));
+        });
+    }
+
+    // Display filtered projects
+    if (filteredProjects.length === 0) {
+        projectsGrid.innerHTML = '<p class="no-projects">No projects match the selected filters.</p>';
+        return;
+    }
+
+    filteredProjects.forEach(project => {
+        const projectCard = createProjectCard(project.data, project.name, project.category);
+        projectsGrid.appendChild(projectCard);
+    });
+}
+
+// Clear all filters
+function clearAllFilters() {
+    activeTags.clear();
+
+    const tagButtons = document.querySelectorAll('.tag-button');
+    tagButtons.forEach(button => {
+        button.classList.remove('active');
+    });
+
+    displayFilteredProjects();
+}
+
+// Toggle filter visibility
+function toggleFilterPanel() {
+    const filterContent = document.getElementById('filter-content');
+    const filterToggle = document.getElementById('filter-toggle');
+    const arrow = filterToggle.querySelector('.arrow');
+
+    filterContent.classList.toggle('open');
+
+    if (filterContent.classList.contains('open')) {
+        arrow.textContent = '▲';
+    } else {
+        arrow.textContent = '▼';
+    }
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
     loadGames();
@@ -142,4 +275,16 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleCategory(icon.dataset.category);
         });
     });
+
+    // Add click handler for filter toggle button
+    const filterToggleBtn = document.getElementById('filter-toggle');
+    if (filterToggleBtn) {
+        filterToggleBtn.addEventListener('click', toggleFilterPanel);
+    }
+
+    // Add click handler for clear filters button
+    const clearFiltersBtn = document.getElementById('clear-filters');
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', clearAllFilters);
+    }
 });

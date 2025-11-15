@@ -49,6 +49,22 @@
             <img src="img/jam.png" alt="Jam Journal" class="category-icon" data-category="jams" tabindex="0" role="button" aria-label="Show jam journal">
         </div>
 
+        <!-- Tag Filter -->
+        <div id="tag-filter-container" class="tag-filter-container">
+            <button id="filter-toggle" class="filter-toggle">
+                <span>Filter</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div id="filter-content" class="filter-content">
+                <div class="filter-header">
+                    <button id="clear-filters" class="clear-filters">Clear all</button>
+                </div>
+                <div id="tag-filter" class="tag-filter">
+                    <!-- Tags will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
         <div id="projects-grid" class="projects-grid">
             <!-- Projects will be loaded dynamically -->
         </div>
