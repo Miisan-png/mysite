@@ -1,0 +1,12 @@
+{
+    "title": "Assimilation",
+    "preview": "preview.png",
+    "postcard": "postcard.png",
+    "tech": ["Godot", "GDscript","Game Jam","First Place"],
+    "links": [
+        {
+            "text": "View Itch Io",
+            "url":"https://miisan.itch.io/ass"
+        }
+    ]
+}

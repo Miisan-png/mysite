@@ -1,7 +1,7 @@
 # About HomeSick
 
 **HomeSick** is a **2D precision platformer** built entirely by me — including a custom game engine, physics, collision, animation, art, and level design.  
-Developed fully from scratch in **C# + MonoGame**, this project is both a technical showcase and a personal story about returning to a place you once abandoned. :contentReference[oaicite:0]{index=0}
+Developed fully from scratch in **C# + MonoGame**, this project is both a technical showcase and a personal story about returning to a place you once abandoned.
 
 ## Game Walkthrough
 
@@ -18,18 +18,17 @@ Here’s an overview of the core engine architecture I designed:
 ![Engine Structure](images/diagram-engine-structure.png){65}
 
 The goal was simple:  
-**make a platformer that feels expressive, smooth, and precise — entirely powered by my own systems.**
+**make a platformer that feels expressive, smooth, and precise — entirely powered by my own systems. (since i also love celeste)**
 
 ---
 
 ## Level Creation & World Building
-
 To build the world of Merp, I integrated **LDtk** into my engine pipeline.  
 It allowed me to design multi-layered levels with parallax, collision tiles, entities, and atmosphere.
 
 ![World Overview](images/diagram-world-overview.png){65}
 
-The abandoned town aesthetic — moss, cracked walls, overgrown streets — was crafted through hand-drawn tilesets and layered backgrounds.
+The abandoned town aesthetic — moss, cracked walls, overgrown streets — were drawn as tilesets and layered backgrounds.
 
 ---
 
@@ -99,7 +98,7 @@ Challenging platforming sections push the player to master chaining movement abi
 
 The style is inspired by melancholic, abandoned spaces — muted colors, overgrown structures, and quiet atmosphere.
 
-To support this mood, I designed a custom player palette:
+To support this mood, I came up with a player palette:
 
 ![Palette](images/art-player-color-palette.png){45}
 
@@ -109,27 +108,18 @@ Alya’s bright palette ensures she always stands out against the environment.
 
 ## Technical Stack
 
-**Engine:** Custom-built  
+**Engine:** Custom-built (Snow Engine)
 **Framework:** MonoGame 3.8  
 **Language:** C#  
 **Tools:** LDtk, Aseprite  
 **Team Size:** Solo  
-**Development Time:** Several months  
-
+**Development Time:** 2 Months
 ---
 
+
+
 ## Current Status
-
-HomeSick is being expanded into a **full Steam release** featuring:
-
-* New biomes & levels  
-* Additional movement abilities  
-* Soundtrack & ambience  
-* Accessibility options  
-* Controller support  
-* Speedrun timer + leaderboard  
-* Achievements, cloud saves  
-
+I am planning to convert Homesick into a **full Steam release** as a learning project. Alongside that, I will be open-sourcing the game engine (Snow Engine) and sharing the custom libraries I’ve built for it — including the Steam API integration developed specifically for Snow.
 ---
 
 ## A Personal Note

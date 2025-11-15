@@ -1,0 +1,11 @@
+{
+    "title": "My Pretty Neighbor",
+    "preview": "preview.png",
+    "postcard": "postcard.png",
+    "tech": ["Unity", "C#"],
+    "links": [
+        {
+            "text": "Hiatus :("
+        }
+    ]
+}

@@ -7,104 +7,71 @@ const bioTexts = {
     jams: "Welcome to my game-jam journal, where i store all the good memories i made during game jams.."
 };
 
-// Cache for loaded project data
-const projectCache = {
-    games: null,
-    jams: null
-};
-
-// Show loading state
-function showLoading() {
+// Load and display games
+async function loadGames() {
     const projectsGrid = document.getElementById('projects-grid');
-    projectsGrid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>Loading projects...</p></div>';
-}
-
-// Show error state
-function showError(message) {
-    const projectsGrid = document.getElementById('projects-grid');
-    projectsGrid.innerHTML = `<div class="error-message"><p>⚠ ${message}</p></div>`;
-}
-
-// Fetch project data from JSON
-async function fetchProjectData(category) {
-    // Return cached data if available
-    if (projectCache[category]) {
-        return projectCache[category];
-    }
+    projectsGrid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>Loading games...</p></div>';
 
     try {
-        // Fetch the index file to get list of projects
-        const indexResponse = await fetch(`${category}/index.json`);
-        if (!indexResponse.ok) throw new Error(`Failed to load ${category} index`);
-
+        // Fetch the list of game folders
+        const indexResponse = await fetch('games/index.json');
         const indexData = await indexResponse.json();
-        const projects = {};
 
-        // Fetch each project's JSON file
-        const projectType = category === 'games' ? 'game' : 'jam';
-        for (const projectName of indexData.projects) {
-            const projectResponse = await fetch(`${category}/${projectName}/${projectType}.json`);
-            if (projectResponse.ok) {
-                projects[projectName] = await projectResponse.json();
-            } else {
-                console.warn(`Failed to load ${projectName}`);
+        projectsGrid.innerHTML = '';
+
+        // Load each game's data
+        for (const gameName of indexData.projects) {
+            try {
+                const gameResponse = await fetch(`games/${gameName}/game.json`);
+                const gameData = await gameResponse.json();
+
+                const projectCard = createProjectCard(gameData, gameName, 'games');
+                projectsGrid.appendChild(projectCard);
+            } catch (error) {
+                console.error(`Error loading game ${gameName}:`, error);
             }
         }
 
-        // Cache the data
-        projectCache[category] = projects;
-        return projects;
-    } catch (error) {
-        console.error(`Error loading ${category}:`, error);
-        throw error;
-    }
-}
-
-// Load and display games
-async function loadGames() {
-    showLoading();
-
-    try {
-        const gamesData = await fetchProjectData('games');
-        const projectsGrid = document.getElementById('projects-grid');
-        projectsGrid.innerHTML = '';
-
-        // Loop through each game and create a card
-        for (const [gameName, gameData] of Object.entries(gamesData)) {
-            const projectCard = createProjectCard(gameData, gameName, 'games');
-            projectsGrid.appendChild(projectCard);
-        }
-
-        // Show message if no games found
-        if (Object.keys(gamesData).length === 0) {
-            projectsGrid.innerHTML = '<p class="no-projects">No games available yet.</p>';
+        if (projectsGrid.children.length === 0) {
+            projectsGrid.innerHTML = '<p class="no-projects">No games found.</p>';
         }
     } catch (error) {
-        showError('Failed to load games. Please try again later.');
+        console.error('Error loading games:', error);
+        projectsGrid.innerHTML = '<p class="error-message">Failed to load games.</p>';
     }
 }
 
 // Load and display jams
 async function loadJams() {
-    showLoading();
+    const projectsGrid = document.getElementById('projects-grid');
+    projectsGrid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>Loading jams...</p></div>';
 
     try {
-        const jamsData = await fetchProjectData('jams');
-        const projectsGrid = document.getElementById('projects-grid');
+        // Fetch the list of jam folders
+        const indexResponse = await fetch('jams/index.json');
+        const indexData = await indexResponse.json();
+
         projectsGrid.innerHTML = '';
 
-        // Loop through each jam and create a card
-        for (const [jamName, jamData] of Object.entries(jamsData)) {
-            const projectCard = createProjectCard(jamData, jamName, 'jams');
-            projectsGrid.appendChild(projectCard);
+        // Load each jam's data
+        for (const jamName of indexData.projects) {
+            try {
+                const jamResponse = await fetch(`jams/${jamName}/jam.json`);
+                const jamData = await jamResponse.json();
+
+                const projectCard = createProjectCard(jamData, jamName, 'jams');
+                projectsGrid.appendChild(projectCard);
+            } catch (error) {
+                console.error(`Error loading jam ${jamName}:`, error);
+            }
         }
 
-        // Show message if no jams found
-        if (Object.keys(jamsData).length === 0) {
-            projectsGrid.innerHTML = '<p class="no-projects">No jam entries available yet.</p>';
+        if (projectsGrid.children.length === 0) {
+            projectsGrid.innerHTML = '<p class="no-projects">No jams found.</p>';
         }
     } catch (error) {
-        showError('Failed to load jam entries. Please try again later.');
+        console.error('Error loading jams:', error);
+        projectsGrid.innerHTML = '<p class="error-message">Failed to load jams.</p>';
     }
 }
 
@@ -114,15 +81,19 @@ function createProjectCard(data, name, category) {
     card.className = 'project-card';
     card.href = `${category}/${name}/index.html`;
 
-    const techBadges = data.tech ? `
-        <div class="tech-stack">
-            ${data.tech.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
-        </div>
-    ` : '';
+    // Generate tech badges HTML if tech array exists
+    let techBadgesHTML = '';
+    if (data.tech && data.tech.length > 0) {
+        techBadgesHTML = '<div class="tech-stack">';
+        data.tech.forEach(tech => {
+            techBadgesHTML += `<span class="tech-badge">${tech}</span>`;
+        });
+        techBadgesHTML += '</div>';
+    }
 
     card.innerHTML = `
         <img src="${category}/${name}/${data.preview}" alt="${data.title}" class="project-preview">
-        ${techBadges}
+        ${techBadgesHTML}
         <div class="project-overlay">
             <h3 class="project-title">${data.title}</h3>
         </div>
@@ -164,19 +135,11 @@ function toggleCategory(category) {
 document.addEventListener('DOMContentLoaded', () => {
     loadGames();
 
-    // Add click and keyboard handlers for category toggle
+    // Add click handlers for category toggle
     const categoryIcons = document.querySelectorAll('.category-icon');
     categoryIcons.forEach(icon => {
         icon.addEventListener('click', () => {
             toggleCategory(icon.dataset.category);
-        });
-
-        // Add keyboard support (Enter and Space)
-        icon.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleCategory(icon.dataset.category);
-            }
         });
     });
 });

@@ -1,0 +1,12 @@
+{
+    "title": "Love Dialogue  Game Engine",
+    "preview": "preview.png",
+    "postcard": "postcard.png",
+    "tech": ["Custom Game Engine", "Lua","LOVE2D"],
+    "links": [
+        {
+            "text": "View Repository",
+            "url":"https://github.com/Miisan-png/Love-Dialogue"
+        }
+    ]
+}

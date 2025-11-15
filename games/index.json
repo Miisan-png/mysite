@@ -1,6 +1,10 @@
 {
 	"projects": [
 		"outpatients",
-		"homesick"
+		"homesick",
+		"prettyneighbor",
+		"lovedialogue",
+		"assim",
+		"1till"
 	]
 }

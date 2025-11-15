@@ -1,0 +1,12 @@
+{
+    "title": "My Pretty Neighbor",
+    "preview": "preview.png",
+    "postcard": "postcard.png",
+    "tech": ["Unity", "C#","Game Jam","First Place"],
+    "links": [
+        {
+            "text": "View Game",
+            "url" : "https://amashail.itch.io/1-till-midnight"
+        }
+    ]
+}

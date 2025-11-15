@@ -3,7 +3,7 @@
     "preview": "preview.png",
     "postcard": "postcard.png",
     "description": "A third-person co-op horror game where two young girls must escape an abandoned, deranged hospital. Winner of BetterGrounds 2025 - First Place.",
-    "tech": ["Unity", "C#", "HLSL", "Custom Shaders"],
+    "tech": ["Unity", "C#", "HLSL", "Custom Shaders","First Place"],
     "links": [
         {
             "text": "View LinkedIn Post",

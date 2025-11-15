@@ -2,7 +2,7 @@
 
 /* Consistent background with main page */
 body {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2e 100%);
+    background: linear-gradient(180deg, #000000 0%, #000000 85%, #000a14 100%);
     background-attachment: fixed;
 }
 
@@ -17,7 +17,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #ff4d6d;
+    color: #00d4ff;
     text-decoration: none;
     font-size: 1rem;
     transition: opacity 0.3s ease;
@@ -54,11 +54,11 @@ body {
 
 .project-header h1 {
     font-size: 3rem;
-    color: #ff4d6d;
+    color: #00d4ff;
     margin-bottom: 20px;
     font-weight: normal;
     letter-spacing: 0.5px;
-    text-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 .project-postcard {
@@ -85,8 +85,8 @@ body {
 
 .project-link {
     padding: 12px 24px;
-    background-color: #ff4d6d;
-    color: white;
+    background-color: #00d4ff;
+    color: #000000;
     text-decoration: none;
     border-radius: 4px;
     font-weight: 500;
@@ -95,7 +95,7 @@ body {
 }
 
 .project-link:hover {
-    background-color: #ff3855;
+    background-color: #00b8e6;
     transform: translateY(-2px);
 }
 
@@ -121,21 +121,21 @@ body {
 
 .markdown-content h1 {
     font-size: 2.5rem;
-    color: #ff4d6d;
+    color: #00d4ff;
     margin: 40px 0 20px;
     font-weight: normal;
 }
 
 .markdown-content h2 {
     font-size: 2rem;
-    color: #ff4d6d;
+    color: #00d4ff;
     margin: 35px 0 18px;
     font-weight: normal;
 }
 
 .markdown-content h3 {
     font-size: 1.5rem;
-    color: #ff6b85;
+    color: #66e0ff;
     margin: 30px 0 15px;
     font-weight: normal;
 }
@@ -146,7 +146,7 @@ body {
 }
 
 .markdown-content strong {
-    color: #ff8fa3;
+    color: #66e0ff;
     font-weight: 600;
 }
 
@@ -156,7 +156,7 @@ body {
 }
 
 .markdown-content a {
-    color: #ff4d6d;
+    color: #00d4ff;
     text-decoration: underline;
     transition: opacity 0.3s ease;
 }
@@ -167,7 +167,7 @@ body {
 
 .markdown-content code {
     background-color: #2a2a2a;
-    color: #ff8fa3;
+    color: #66e0ff;
     padding: 2px 6px;
     border-radius: 3px;
     font-family: 'Courier New', monospace;
@@ -180,7 +180,7 @@ body {
     border-radius: 6px;
     overflow-x: auto;
     margin: 20px 0;
-    border-left: 4px solid #ff4d6d;
+    border-left: 4px solid #00d4ff;
 }
 
 .markdown-content pre code {
@@ -200,7 +200,7 @@ body {
 }
 
 .markdown-content blockquote {
-    border-left: 4px solid #ff4d6d;
+    border-left: 4px solid #00d4ff;
     padding-left: 20px;
     margin: 20px 0;
     color: #b0b0b0;

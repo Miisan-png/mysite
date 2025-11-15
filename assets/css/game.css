@@ -7,7 +7,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1a1a1a;
+    background: linear-gradient(180deg, #000000 0%, #000000 85%, #000a14 100%);
+    background-attachment: fixed;
     color: #e0e0e0;
     line-height: 1.6;
     min-height: 100vh;
@@ -22,7 +23,7 @@ body {
 /* Back Link */
 .back-link {
     display: inline-block;
-    color: #ff4d6d;
+    color: #00d4ff;
     text-decoration: none;
     font-size: 1.1rem;
     margin-bottom: 40px;
@@ -60,7 +61,7 @@ body {
 
 .game-title {
     font-size: 2.5rem;
-    color: #ff4d6d;
+    color: #00d4ff;
     margin-bottom: 30px;
 }
 
@@ -82,15 +83,15 @@ body {
 .game-link {
     display: inline-block;
     padding: 15px 30px;
-    background-color: #ff4d6d;
-    color: white;
+    background-color: #00d4ff;
+    color: #000000;
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s ease;
 }
 
 .game-link:hover {
-    background-color: #ff3355;
+    background-color: #00b8e6;
 }
 
 /* Responsive Design */
